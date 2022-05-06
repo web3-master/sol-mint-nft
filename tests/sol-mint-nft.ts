@@ -16,6 +16,7 @@ const TOKEN_METADATA_PROGRAM_ID = new anchor.web3.PublicKey(
 
 const nftName = "Animal(97): Elephant";
 const nftDescription = "This is animal nft of daniel's elephant.";
+const nftSymbol = "ZooNft";
 const nftImageUrl = "https://bafybeihshos2fqh5nlz27j26fyvfy3ctwd2t3rgjoslsmmzxzykxhzwbea.ipfs.infura-ipfs.io";
 
 async function ipfs_metadata_upload() {
@@ -28,7 +29,7 @@ async function ipfs_metadata_upload() {
 
   const nftMetadata = {
     name: nftName,
-    symbol: "ani-nft",
+    symbol: nftSymbol,
     description: nftDescription,
     image: nftImageUrl,
     attributes: [
@@ -124,8 +125,9 @@ async function sol_mint_nft() {
   // it("Is initialized!", async () => {
     const tx = await program.rpc.mintNft(
       mintKey.publicKey,
-      metadataUri,
       nftName,
+      nftSymbol,
+      metadataUri,
       {
         accounts: {
           mintAuthority: provider.wallet.publicKey,

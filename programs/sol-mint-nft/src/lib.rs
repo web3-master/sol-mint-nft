@@ -13,8 +13,9 @@ pub mod sol_mint_nft {
     pub fn mint_nft(
         ctx: Context<MintNFT>,
         creator_key: Pubkey,
+        name: String,
+        symbol: String,
         uri: String,
-        title: String
     ) -> Result<()> {
         msg!("Nft token minting:");
         let cpi_program = ctx.accounts.token_program.to_account_info();
@@ -24,7 +25,10 @@ pub mod sol_mint_nft {
             authority: ctx.accounts.payer.to_account_info(),
         };
         let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
-        mint_to(cpi_ctx, 1);
+        let result = mint_to(cpi_ctx, 1);
+        if let Err(_) = result {
+            return Err(error!(ErrorCode::MintFailed));
+        }
         msg!("Token minted !!!");
 
         msg!("Metadata account creating:");
@@ -50,7 +54,7 @@ pub mod sol_mint_nft {
                 share: 0,
             },
         ];
-        invoke(
+        let result = invoke(
             &create_metadata_accounts_v2(
                 ctx.accounts.token_metadata_program.key(),
                 ctx.accounts.metadata.key(),
@@ -58,8 +62,8 @@ pub mod sol_mint_nft {
                 ctx.accounts.mint_authority.key(),
                 ctx.accounts.payer.key(),
                 ctx.accounts.payer.key(),
-                title,
-                std::string::ToString::to_string("symb"),
+                name,
+                symbol,
                 uri,
                 Some(creators),
                 1,
@@ -70,6 +74,9 @@ pub mod sol_mint_nft {
             ),
             &accounts
         );
+        if let Err(_) = result {
+            return Err(error!(ErrorCode::MetadataCreateFailed));
+        }
         msg!("Metadata account created !!!");
         Ok(())
     }
@@ -105,4 +112,13 @@ pub struct MintNFT<'info> {
 
     /// CHECK: This is not dangerous because we don't read or write from this account
     pub rent: AccountInfo<'info>,
+}
+
+#[error_code]
+pub enum ErrorCode {
+    #[msg("Mint failed!")]
+    MintFailed,
+
+    #[msg("Metadata account create failed!")]
+    MetadataCreateFailed
 }
