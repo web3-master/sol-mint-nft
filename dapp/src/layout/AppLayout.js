@@ -4,6 +4,7 @@ import Minter from "../containers/Minter";
 import WrongNetwork from "../containers/WrongNetwork";
 import logo from "../images/sol.png";
 import { Route, Routes } from "react-router-dom";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const AppLayout = () => {
   return (
@@ -21,8 +22,8 @@ const AppLayout = () => {
                 </h1>
               </Col>
               <Col flex="auto"></Col>
-              <Col span={1} style={{ marginRight: 10 }}>
-                Account
+              <Col style={{ marginRight: 10 }}>
+                <WalletMultiButton className="wallet-button" />
               </Col>
             </Row>
           </Header>

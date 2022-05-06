@@ -1,12 +1,16 @@
 import { BrowserRouter } from "react-router-dom";
-import "./App.css";
+import WalletContextProvider from "./contexts/WalletContextProvider";
 import AppLayout from "./layout/AppLayout";
+import "@solana/wallet-adapter-react-ui/styles.css";
+import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <AppLayout />
+        <WalletContextProvider>
+          <AppLayout />
+        </WalletContextProvider>
       </div>
     </BrowserRouter>
   );

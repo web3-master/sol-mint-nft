@@ -1,4 +1,4 @@
-@import '~antd/dist/antd.dark.css';
+@import "~antd/dist/antd.dark.css";
 
 .App {
   text-align: center;
@@ -37,4 +37,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* example: override wallet button style */
+.wallet-adapter-button:not([disabled]):hover {
+  background-color: #707070;
+}
+
+.wallet-button {
+  margin-top: 8px;
 }
