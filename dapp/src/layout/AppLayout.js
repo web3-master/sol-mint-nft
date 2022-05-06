@@ -17,7 +17,7 @@ const AppLayout = () => {
               </Col>
               <Col>
                 <h1>
-                  <font color="white">NFT Minter</font>
+                  <font color="white">Solana NFT Minter</font>
                 </h1>
               </Col>
               <Col flex="auto"></Col>
