@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.localnet]
-sol_mint_nft = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+sol_mint_nft = "9FKLho9AUYScrrKgJbG1mExt5nSgEfk1CNEbR8qBwKTZ"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/home/ksh/.config/solana/id.json"
 
 [scripts]

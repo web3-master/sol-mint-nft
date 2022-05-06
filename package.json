@@ -4,7 +4,8 @@
         "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
     },
     "dependencies": {
-        "@project-serum/anchor": "^0.24.2"
+        "@project-serum/anchor": "^0.24.2",
+        "ipfs-http-client": "^55.0.0"
     },
     "devDependencies": {
         "chai": "^4.3.4",
@@ -14,6 +15,7 @@
         "@types/chai": "^4.3.0",
         "@types/mocha": "^9.0.0",
         "typescript": "^4.3.5",
-        "prettier": "^2.6.2"
+        "prettier": "^2.6.2",
+        "@solana/spl-token": "^0.2.0"
     }
 }
