@@ -1,5 +1,6 @@
 # sol-mint-nft
-Anchor based project to mint a nft.
+Anchor based project to mint a NFT on solana.
+
 ![🏆](https://github.com/dany-armstrong/sol-mint-nft/blob/main/dapp/screenshot.jpg)
 
 # 🏆🏆🏆 Sol Mint NFT 🏆🏆🏆
@@ -16,7 +17,7 @@ Anchor based project to mint a nft.
 ### 📝 Description
 I have built Anchor based solana program to mint NFT and deployed to devnet.
 
-Devnet Address
+Devnet Address:
 https://explorer.solana.com/address/9FKLho9AUYScrrKgJbG1mExt5nSgEfk1CNEbR8qBwKTZ
 
 
@@ -33,12 +34,10 @@ https://explorer.solana.com/address/9FKLho9AUYScrrKgJbG1mExt5nSgEfk1CNEbR8qBwKTZ
 > ipfs: Decentralized storage service. We stores all images and metadata here.
 
 ### 📝 Description
-This is react.js based decentralized front-end application to mint animal images.
+This is react.js based decentralized front-end application to mint animal images.<br/>
 Now it has the following features.
-1. Wallet connection.
-It supports major solana wallets such as Phantom, Solflare and Sollet.
-2. Mint.
-Any user can mint his/her own animal's NFT on solana(devnet) here.
-3. Market(TODO).
-All animals' NFTs will be listed here.
-And users can trade NFTs with SOL like Opensea or Magic Eden.
+> Wallet connection: It supports major solana wallets such as Phantom, Solflare and Sollet.
+
+> Mint: Any user can mint his/her own animal's NFT on solana(devnet) here.
+
+> Market(TODO): All animals' NFTs will be listed here. And users can trade NFTs with SOL like Opensea or Magic Eden.
