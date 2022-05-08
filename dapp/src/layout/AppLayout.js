@@ -5,8 +5,12 @@ import WrongNetwork from "../containers/WrongNetwork";
 import logo from "../images/sol.png";
 import { Route, Routes } from "react-router-dom";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
 const AppLayout = () => {
+  const { connection } = useConnection();
+  const { publicKey, connected } = useWallet();
+
   return (
     <Row>
       <Col span={24}>
@@ -28,10 +32,14 @@ const AppLayout = () => {
             </Row>
           </Header>
           <Content>
-            <Routes>
-              <Route path="/" element={<Minter />} />
-              <Route path="/mint" element={<Minter />} />
-            </Routes>
+            {connected && publicKey != null && (
+              <Routes>
+                <Route path="/" element={<Minter />} />
+                <Route path="/mint" element={<Minter />} />
+              </Routes>
+            )}
+            {connected == false && <WrongNetwork />}
+            {connected && publicKey == null && <WrongNetwork />}
           </Content>
           <Footer
             style={{
