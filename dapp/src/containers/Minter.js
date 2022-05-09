@@ -106,9 +106,9 @@ const Minter = () => {
     console.log("Uploaded meta data url: ", uploadedMetatdataUrl);
 
     setMinting(true);
-    await mint(name, NFT_SYMBOL, uploadedMetatdataUrl);
+    const result = await mint(name, NFT_SYMBOL, uploadedMetatdataUrl);
     setMinting(false);
-    setMintSuccess(true);
+    setMintSuccess(result);
   };
 
   const uploadImageToIpfs = async () => {
@@ -231,10 +231,14 @@ const Minter = () => {
     console.log("blockhashObj", blockhashObj);
     mint_tx.recentBlockhash = blockhashObj.blockhash;
 
-    var signature = await wallet.sendTransaction(mint_tx, connection, {
-      signers: [mintKey],
-    });
-    await connection.confirmTransaction(signature, "confirmed");
+    try {
+      const signature = await wallet.sendTransaction(mint_tx, connection, {
+        signers: [mintKey],
+      });
+      await connection.confirmTransaction(signature, "confirmed");
+    } catch {
+      return false;
+    }
 
     console.log("Mint key: ", mintKey.publicKey.toString());
     console.log("User: ", provider.wallet.publicKey.toString());
@@ -242,29 +246,34 @@ const Minter = () => {
     const metadataAddress = await getMetadata(mintKey.publicKey);
     console.log("Metadata address: ", metadataAddress.toBase58());
 
-    const tx = await program.transaction.mintNft(
-      mintKey.publicKey,
-      name,
-      symbol,
-      metadataUrl,
-      {
-        accounts: {
-          mintAuthority: provider.wallet.publicKey,
-          mint: mintKey.publicKey,
-          tokenAccount: nftTokenAccount,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          metadata: metadataAddress,
-          tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
-          payer: provider.wallet.publicKey,
-          systemProgram: anchor.web3.SystemProgram.programId,
-          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        },
-      }
-    );
+    try {
+      const tx = program.transaction.mintNft(
+        mintKey.publicKey,
+        name,
+        symbol,
+        metadataUrl,
+        {
+          accounts: {
+            mintAuthority: provider.wallet.publicKey,
+            mint: mintKey.publicKey,
+            tokenAccount: nftTokenAccount,
+            tokenProgram: TOKEN_PROGRAM_ID,
+            metadata: metadataAddress,
+            tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+            payer: provider.wallet.publicKey,
+            systemProgram: anchor.web3.SystemProgram.programId,
+            rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+          },
+        }
+      );
 
-    signature = await wallet.sendTransaction(tx, connection);
-    await connection.confirmTransaction(signature, "confirmed");
-    console.log("Mint Success!");
+      const signature = await wallet.sendTransaction(tx, connection);
+      await connection.confirmTransaction(signature, "confirmed");
+      console.log("Mint Success!");
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   const onMintAgain = () => {
@@ -291,12 +300,12 @@ const Minter = () => {
   return (
     <Row style={{ margin: 60 }}>
       {minting && (
-        <Col span={12} offset={6}>
+        <Col span={16} offset={4}>
           <Alert message="Minting..." type="info" showIcon />
         </Col>
       )}
       {uploading && (
-        <Col span={12} offset={6}>
+        <Col span={16} offset={4}>
           <Alert message="Uploading image..." type="info" showIcon />
         </Col>
       )}
@@ -310,7 +319,7 @@ const Minter = () => {
             onFinish={onCreate}
           >
             <Row gutter={24}>
-              <Col span={12}>
+              <Col xl={12} span={24}>
                 <Form.Item
                   label="Image"
                   name="image"
@@ -334,7 +343,7 @@ const Minter = () => {
                   </Upload.Dragger>
                 </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col xl={12} span={24}>
                 <Form.Item
                   label="Name"
                   name="name"
